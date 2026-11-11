@@ -255,6 +255,8 @@ h2{line-height:1.25;letter-spacing:-.015em}
   .fgrid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:720px){
+  /* Keep the ring inside the portrait crop on phones. */
+  .hero-bg{object-position:80% center}
   section{padding:72px 0}
   .hero h1{font-size:clamp(38px,11vw,50px);max-width:100%;line-height:1.16}
   .hero p{font-size:16px;line-height:1.65}
@@ -270,8 +272,10 @@ h2{line-height:1.25;letter-spacing:-.015em}
   .mtx{padding:24px 20px}
 }
 
-/* ====== Image loading (2026-11-11): soft fade-in, placeholders, no layout jump ====== */
-.hero-bg{opacity:0;transition:opacity .6s ease}
+/* ====== Image loading (2026-11-11): placeholders, no layout jump ====== */
+/* Keep the hero visible without relying on an onload class. Some mobile in-app
+   browsers restore the page from cache without firing the inline load handler. */
+.hero-bg{opacity:.4}
 .hero-bg.ok{opacity:.4}
 .cat img,.prod .ph img,.about-main-photo img,.store-gallery img{opacity:0;transition:opacity .45s ease,transform .7s}
 .cat img.ok,.prod .ph img.ok,.about-main-photo img.ok,.store-gallery img.ok{opacity:1}
