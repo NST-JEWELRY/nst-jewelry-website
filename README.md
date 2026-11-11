@@ -4,3 +4,4 @@
 
 - เว็บไซต์: `index.html`
 - ระบบ Admin: `/admin/`
+- GitHub Pages: https://nst-jewelry.github.io/nst-jewelry-website/
