@@ -62,6 +62,13 @@ body[data-view="custom"] #custom .btn{color:#111}
 body[data-view="collections"] #shop{background:#fff;padding-top:62px}
 body[data-view="collections"] #shop .eyebrow{display:none}
 body[data-view="contact"] #contact{padding-top:62px}
+/* ซ่อนส่วนที่ไม่ใช่ของหน้านี้ตั้งแต่เฟรมแรก (เดิมซ่อนด้วยสคริปต์ท้ายหน้า ทำให้หน้ากระโดด) */
+body[data-view="home"] > section:not(#top,#collections,#shop,#why,#custom,#reviews,#faq,#homeCta),
+body[data-view="collections"] > section:not(#collectionsHero,#shop),
+body[data-view="custom"] > section:not(#customHero,#custom),
+body[data-view="services"] > section:not(#servicesHero,#services),
+body[data-view="about"] > section:not(#aboutHero,#about,#homeCta),
+body[data-view="contact"] > section:not(#contactHero,#contact){display:none!important}
 
 /* Promo bar */
 .promo{background:var(--gold);color:#111;font-size:13px;text-align:center;padding:8px 44px 8px 16px;position:relative;z-index:60}
@@ -262,9 +269,20 @@ h2{line-height:1.25;letter-spacing:-.015em}
   .hero .btn{width:100%}
   .mtx{padding:24px 20px}
 }
+
+/* ====== Image loading (2026-11-11): soft fade-in, placeholders, no layout jump ====== */
+.hero-bg{opacity:0;transition:opacity .6s ease}
+.hero-bg.ok{opacity:.4}
+.cat img,.prod .ph img,.about-main-photo img,.store-gallery img{opacity:0;transition:opacity .45s ease,transform .7s}
+.cat img.ok,.prod .ph img.ok,.about-main-photo img.ok,.store-gallery img.ok{opacity:1}
+/* รูปที่สัดส่วนต่างจากกรอบมาก (เช่นรูปมือถือแนวตั้งยาว) แสดงเต็มชิ้นแทนการครอปทิ้ง */
+.prod .ph img.fit{object-fit:contain}
+.mgal .main.fit{background-size:contain;background-repeat:no-repeat}
 </style>
-<meta name="robots" content="noindex,nofollow"><meta name="mobile-web-app-capable" content="yes"></head>
+<link rel="preconnect" href="https://hdlfiiwtupyschjddazy.supabase.co" crossorigin><meta name="robots" content="noindex,nofollow"><meta name="mobile-web-app-capable" content="yes"></head>
 <body>
+<script>/* ตั้งค่าหน้าที่แสดงก่อนวาดหน้าเว็บ เพื่อไม่ให้ส่วนหัวและ Hero ขยับตอนโหลด */
+(function(){var v=new URLSearchParams(location.search).get("view");document.body.dataset.view=["home","collections","custom","services","about","contact"].indexOf(v)>-1?v:"home";})();</script>
 
 <div class="promo hide" id="promo"></div>
 
@@ -301,7 +319,10 @@ h2{line-height:1.25;letter-spacing:-.015em}
 </div>
 
 <section class="hero" id="top">
-  <img class="hero-bg" id="heroBg" alt="" aria-hidden="true">
+  <img class="hero-bg" id="heroBg" src="./assets/img/hero-960.webp"
+    srcset="./assets/img/hero-640.webp 640w, ./assets/img/hero-960.webp 960w, ./assets/img/hero-1280.webp 1280w, ./assets/img/hero-1672.webp 1672w"
+    sizes="(max-aspect-ratio: 16/9) 178vh, 100vw" width="1672" height="941"
+    fetchpriority="high" decoding="async" alt="" aria-hidden="true" onload="this.classList.add('ok')">
   <div class="wrap">
     <div class="eyebrow">Timeless Jewelry, Made For You.</div>
     <h1 data-bi="homepageHeadline">เครื่องประดับที่สะท้อนความพิเศษในแบบของคุณ</h1>
@@ -390,7 +411,7 @@ h2{line-height:1.25;letter-spacing:-.015em}
     </div>
     <div class="svc reveal">
       <article><div class="img" data-bg="craftsmanshipImage"></div><div class="tx"><h3>การผลิตและงานฝีมือ</h3><p class="pre" data-bi="aboutContent" data-first></p></div></article>
-      <article><div class="img" style="background-image:url('./assets/diamond-inspection.png')"></div><div class="tx"><h3>การตรวจเพชรด้วยเครื่องมือ</h3><p>ตรวจสอบเพชรด้วยเครื่องมือเฉพาะทาง เพื่อช่วยประเมินและคัดกรองก่อนดำเนินงานในขั้นตอนต่อไป</p></div></article>
+      <article><div class="img" data-bg-src="./assets/diamond-inspection.png"></div><div class="tx"><h3>การตรวจเพชรด้วยเครื่องมือ</h3><p>ตรวจสอบเพชรด้วยเครื่องมือเฉพาะทาง เพื่อช่วยประเมินและคัดกรองก่อนดำเนินงานในขั้นตอนต่อไป</p></div></article>
       <article><div class="img" data-bg="afterSalesImage"></div><div class="tx"><h3>บริการหลังการขาย</h3><p class="pre" data-bi="afterSalesContent"></p></div></article>
     </div>
   </div>
@@ -403,12 +424,12 @@ h2{line-height:1.25;letter-spacing:-.015em}
       <h2>เกี่ยวกับ <span data-bi="businessName">NST JEWELRY</span></h2>
       <p class="pre" data-bi="aboutContent"></p>
     </div>
-    <figure class="about-main-photo reveal"><img src="./assets/storefront.jpg" alt="หน้าร้าน NST JEWELRY" loading="lazy"></figure>
+    <figure class="about-main-photo reveal" style="background-color:#858682"><img src="./assets/img/storefront-800.webp" srcset="./assets/img/storefront-480.webp 480w, ./assets/img/storefront-800.webp 800w, ./assets/img/storefront-1200.webp 1200w, ./assets/img/storefront-1600.webp 1600w" sizes="(max-width:720px) 100vw, 560px" width="1600" height="2133" alt="หน้าร้าน NST JEWELRY" loading="lazy" decoding="async" onload="this.classList.add('ok')"></figure>
   </div>
   <div class="wrap store-gallery reveal" aria-label="ภาพหน้าร้านและภายในร้าน NST JEWELRY">
-    <figure><img src="./assets/storefront.jpg" alt="หน้าร้าน NST JEWELRY" loading="lazy"><figcaption>หน้าร้าน NST JEWELRY</figcaption></figure>
-    <figure><img src="./assets/store-interior.jpg" alt="บรรยากาศภายในร้าน NST JEWELRY" loading="lazy"><figcaption>บรรยากาศภายในร้าน</figcaption></figure>
-    <figure><img src="./assets/store-interior-wall.png" alt="พื้นที่จัดแสดงแบบเครื่องประดับภายในร้าน" loading="lazy"><figcaption>พื้นที่จัดแสดงแบบเครื่องประดับ</figcaption></figure>
+    <figure style="background-color:#858682"><img src="./assets/img/storefront-800.webp" srcset="./assets/img/storefront-480.webp 480w, ./assets/img/storefront-800.webp 800w, ./assets/img/storefront-1200.webp 1200w, ./assets/img/storefront-1600.webp 1600w" sizes="(max-width:720px) 100vw, 470px" width="1600" height="2133" alt="หน้าร้าน NST JEWELRY" loading="lazy" decoding="async" onload="this.classList.add('ok')"><figcaption>หน้าร้าน NST JEWELRY</figcaption></figure>
+    <figure style="background-color:#828788"><img src="./assets/img/store-interior-800.webp" srcset="./assets/img/store-interior-480.webp 480w, ./assets/img/store-interior-800.webp 800w, ./assets/img/store-interior-1200.webp 1200w, ./assets/img/store-interior-1600.webp 1600w" sizes="(max-width:720px) 100vw, 760px" width="1600" height="2133" alt="บรรยากาศภายในร้าน NST JEWELRY" loading="lazy" decoding="async" onload="this.classList.add('ok')"><figcaption>บรรยากาศภายในร้าน</figcaption></figure>
+    <figure style="background-color:#585e5f"><img src="./assets/img/store-interior-wall-800.webp" srcset="./assets/img/store-interior-wall-480.webp 480w, ./assets/img/store-interior-wall-800.webp 800w, ./assets/img/store-interior-wall-1200.webp 1200w" sizes="(max-width:720px) 100vw, 760px" width="1200" height="900" alt="พื้นที่จัดแสดงแบบเครื่องประดับภายในร้าน" loading="lazy" decoding="async" onload="this.classList.add('ok')"><figcaption>พื้นที่จัดแสดงแบบเครื่องประดับ</figcaption></figure>
   </div>
 </section>
 
@@ -577,6 +598,61 @@ const LOCAL_ASSETS = {
   }
 };
 
+/* ====== รูปภาพเวอร์ชันเบา ======
+   ไฟล์ต้นฉบับใน ./assets/ ไม่ถูกแก้ไข เว็บจะแปลงทุกลิงก์ที่ชี้ไปที่ต้นฉบับ (รวมถึงค่าที่บันทึกจาก Admin)
+   ให้ใช้ไฟล์ WebP หลายขนาดใน ./assets/img/ แทน และเบราว์เซอร์เลือกขนาดที่พอดีกับจอเอง */
+const IMG_DIR = "./assets/img/";
+const IMG = {"hero":{"w":[640,960,1280,1672],"ar":1.7768,"bg":"#0b1323"},"section-custom-jewelry":{"w":[640,960,1280,1672],"ar":1.7768,"bg":"#363333"},"section-craftsmanship":{"w":[640,960,1280,1672],"ar":1.7768,"bg":"#bd9d86"},"section-after-sales":{"w":[640,960,1280,1672],"ar":1.7768,"bg":"#b1a193"},"section-about":{"w":[640,960,1280,1672],"ar":1.7768,"bg":"#1c1c1f"},"category-diamond-rings":{"w":[400,600,800],"ar":0.8003,"bg":"#0f182f"},"category-engagement-rings":{"w":[400,600,800],"ar":0.799,"bg":"#131b31"},"category-wedding-rings":{"w":[400,600,800],"ar":0.799,"bg":"#111a2e"},"category-earrings":{"w":[400,600,800],"ar":0.8003,"bg":"#111a30"},"category-necklaces":{"w":[400,600,800],"ar":0.5625,"bg":"#271f1c"},"category-bracelets":{"w":[400,600,800],"ar":0.799,"bg":"#131b32"},"category-other-jewelry":{"w":[400,600,800],"ar":0.8003,"bg":"#131d32"},"gallery-collection":{"w":[600,1000],"ar":0.8333,"bg":"#1a1f2c"},"diamond-inspection":{"w":[480,800,1200],"ar":1.334,"bg":"#2783b6"},"store-interior-wall":{"w":[480,800,1200],"ar":1.334,"bg":"#585e5f"},"storefront":{"w":[480,800,1200,1600],"ar":0.75,"bg":"#858682"},"store-interior":{"w":[480,800,1200,1600],"ar":0.75,"bg":"#828788"}};
+// "./assets/hero.png", "../assets/hero.png", "https://…/assets/img/hero-960.webp" → "hero"
+function optKey(u) {
+  const m = String(u || "").match(/(?:^|\/)assets\/(?:img\/)?([a-z0-9-]+?)(?:-\d+)?\.(?:png|jpe?g|webp)(?:[?#].*)?$/i);
+  return m && IMG[m[1]] ? m[1] : null;
+}
+// รูปที่อัปโหลดจาก Admin รุ่นใหม่: <ชื่อ>-nst.webp (≤1600px) คู่กับ <ชื่อ>-nst.sm.webp (≤640px)
+// (เบราว์เซอร์ที่สร้าง WebP ไม่ได้จะได้ -nst.jpg / -nst.sm.jpg แทน)
+const NST_UPLOAD = /-nst\.(webp|jpe?g)(?=[?#]|$)/i;
+const smallUpload = u => String(u).replace(NST_UPLOAD, "-nst.sm.$1");
+function imgAttrs(u, sizes) {
+  const k = optKey(u);
+  if (k) {
+    const m = IMG[k], big = m.w[m.w.length - 1], mid = m.w[Math.min(1, m.w.length - 1)];
+    return `src="${IMG_DIR}${k}-${mid}.webp" srcset="${m.w.map(w => `${IMG_DIR}${k}-${w}.webp ${w}w`).join(", ")}" sizes="${sizes}" width="${big}" height="${Math.round(big / m.ar)}"`;
+  }
+  if (NST_UPLOAD.test(u)) return `src="${esc(u)}" srcset="${esc(smallUpload(u))} 640w, ${esc(u)} 1600w" sizes="${sizes}"`;
+  return `src="${esc(u)}"`;
+}
+// เมื่อรูปโหลดเสร็จ: ค่อยๆ แสดง และถ้าสัดส่วนต่างจากกรอบเกิน 30% ให้แสดงเต็มชิ้น (ไม่ครอปทิ้ง)
+function nstImgLoaded(img) {
+  img.classList.add("ok");
+  if (!img.closest(".prod")) return;
+  const r = img.naturalWidth / img.naturalHeight, box = img.clientWidth / img.clientHeight;
+  if (r && box && Math.abs(r - box) / box > 0.3) img.classList.add("fit");
+}
+// พื้นหลังแบบ lazy: โหลดเมื่อใกล้เข้าจอ และเลือกไฟล์ที่กว้างพอสำหรับกรอบจริงเท่านั้น
+function bgUrlFor(el, u) {
+  const dpr = Math.min(window.devicePixelRatio || 1, 3), k = optKey(u);
+  const w = el.clientWidth || innerWidth, h = el.clientHeight || 0;
+  if (k) {
+    const need = Math.max(w, h * IMG[k].ar) * dpr, ws = IMG[k].w;
+    return `${IMG_DIR}${k}-${ws.find(x => x >= need) || ws[ws.length - 1]}.webp`;
+  }
+  if (NST_UPLOAD.test(u) && w * dpr <= 640) return smallUpload(u);
+  return u;
+}
+const bgIO = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  bgIO.unobserve(e.target);
+  e.target.style.backgroundImage = `url("${bgUrlFor(e.target, e.target.dataset.bgUrl)}")`;
+}), { rootMargin: "400px 0px" }) : null;
+function setLazyBg(el, u) {
+  if (!u || el.dataset.bgUrl === u) return;
+  el.dataset.bgUrl = u;
+  const k = optKey(u);
+  if (k) el.style.backgroundColor = IMG[k].bg;
+  if (bgIO) bgIO.observe(el); else el.style.backgroundImage = `url("${bgUrlFor(el, u)}")`;
+}
+$$("[data-bg-src]").forEach(el => setLazyBg(el, el.dataset.bgSrc));
+
 const ROUTE_PARAMS = new URLSearchParams(location.search);
 const VIEW = ["home","collections","custom","services","about","contact"].includes(ROUTE_PARAMS.get("view")) ? ROUTE_PARAMS.get("view") : "home";
 document.body.dataset.view = VIEW;
@@ -625,13 +701,21 @@ function renderBusiness() {
     if (el.hasAttribute("data-first")) v = String(v).split(/\n\s*\n/)[0];
     el.textContent = v; el.classList.remove("hide");
   });
-  $$("[data-bg]").forEach(el => { const u = safeUrl(BI[el.dataset.bg]); if (u) el.style.backgroundImage = `url("${u}")`; });
+  $$("[data-bg]").forEach(el => { const u = safeUrl(BI[el.dataset.bg]); if (u) setLazyBg(el, u); });
   $$("[data-href]").forEach(el => { const u = safeUrl(BI[el.dataset.href]); u ? el.href = u : el.classList.add("hide"); });
   $$("[data-src]").forEach(el => { const u = safeUrl(BI[el.dataset.src]); u ? el.src = u : el.classList.add("hide"); });
   $$("[data-if]").forEach(el => { if (!BI[el.dataset.if]) el.classList.add("hide"); });
   $$("[data-tel]").forEach(el => { if (BI.phone) { el.textContent = BI.phone; el.href = "tel:" + BI.phone.replace(/[^\d+]/g,""); } });
-  const heroImage = safeUrl(BI.homeHeroImage || LOCAL_ASSETS.hero);
-  if (heroImage) $("#heroBg").src = heroImage;
+  // รูป Hero โหลดทันทีจาก HTML; เปลี่ยนเฉพาะเมื่อ Admin ตั้งรูปอื่นไว้
+  const heroImage = safeUrl(BI.homeHeroImage);
+  if (heroImage && optKey(heroImage) !== "hero") {
+    const hero = $("#heroBg"), tmp = document.createElement("div");
+    tmp.innerHTML = `<img ${imgAttrs(heroImage, "(max-aspect-ratio: 16/9) 178vh, 100vw")}>`;
+    const next = tmp.firstChild;
+    hero.removeAttribute("width"); hero.removeAttribute("height");
+    if (next.getAttribute("srcset")) hero.srcset = next.getAttribute("srcset"); else hero.removeAttribute("srcset");
+    hero.src = next.getAttribute("src");
+  }
   if (BI.businessName) document.title = BI.businessName + " — เครื่องประดับและเพชรหรูสมัยใหม่";
   const social = [["facebook","Facebook"],["lineUrl","LINE"],["instagram","Instagram"],["tiktok","TikTok"]]
     .filter(([k]) => safeUrl(BI[k])).map(([k,l]) => `<a href="${esc(safeUrl(BI[k]))}" target="_blank" rel="noopener">${l}</a>`).join("");
@@ -646,7 +730,7 @@ function renderCategories() {
   $("#cats").innerHTML = visible.map(c => {
     const img = safeUrl(c.image || catImage(c.slug));
     return `<div class="cat reveal" data-cat="${esc(c.slug)}">
-      ${img ? `<img src="${esc(img)}" alt="${esc(c.name)}" loading="lazy" onerror="this.remove()">` : ""}
+      ${img ? `<img ${imgAttrs(img, "(max-width:1024px) 50vw, 290px")} alt="${esc(c.name)}" loading="lazy" decoding="async" onload="nstImgLoaded(this)" onerror="this.remove()">` : ""}
       <div class="ov">${c.description ? `<span class="d">${esc(c.description)}</span>` : ""}<h3>${esc(c.name)}</h3><span class="go">เลือกชม →</span></div>
     </div>`;
   }).join("");
@@ -667,7 +751,7 @@ function renderProducts() {
     const img = safeUrl((p.images || [])[0] || LOCAL_ASSETS.products[p.slug]);
     return `<div class="prod reveal in" data-pid="${esc(p.id)}" tabindex="0">
       <div class="ph">
-        ${img ? `<img src="${esc(img)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove()">` : ""}
+        ${img ? `<img ${imgAttrs(img, "(max-width:1024px) 50vw, 290px")} alt="${esc(p.name)}" loading="lazy" decoding="async" onload="nstImgLoaded(this)" onerror="this.remove()">` : ""}
         <div class="tags">${p.featured ? '<span class="tag">แนะนำ</span>' : ""}${p.newProduct ? '<span class="tag new">ใหม่</span>' : ""}${p.promotion ? '<span class="tag sale">โปรโมชัน</span>' : ""}</div>
       </div>
       <div class="info"><div class="c">${esc(catName(p.category))}</div><h3>${esc(p.name)}</h3><div class="price">${priceHTML(p)}</div></div>
@@ -677,14 +761,14 @@ function renderProducts() {
 
 function openProduct(id) {
   const p = PRODUCTS.find(x => x.id === id); if (!p) return;
-  const imgs = (p.images || []).map(safeUrl).filter(Boolean);
+  const imgs = ((p.images || []).length ? p.images : [LOCAL_ASSETS.products[p.slug]]).map(safeUrl).filter(Boolean);
   const specs = SPEC_LABELS.filter(([k]) => p[k] != null && p[k] !== "").map(([k,l]) => `<div><span>${l}</span><span>${esc(p[k])}</span></div>`).join("");
   const line = safeUrl(BI.lineUrl);
   $("#mbox").innerHTML = `
     <button class="mclose" aria-label="ปิด" data-close>×</button>
     <div class="mgal">
       <div class="main" id="mmain" style="${imgs[0] ? `background-image:url('${esc(imgs[0])}')` : ""}"></div>
-      ${imgs.length > 1 ? `<div class="thumbs">${imgs.map((u,i) => `<img src="${esc(u)}" class="${i?"":"on"}" data-thumb="${esc(u)}" alt="">`).join("")}</div>` : ""}
+      ${imgs.length > 1 ? `<div class="thumbs">${imgs.map((u,i) => `<img src="${esc(NST_UPLOAD.test(u) ? smallUpload(u) : u)}" decoding="async" class="${i?"":"on"}" data-thumb="${esc(u)}" alt="">`).join("")}</div>` : ""}
     </div>
     <div class="mtx">
       <div class="eyebrow">${esc(catName(p.category))}</div>
@@ -703,6 +787,14 @@ function openProduct(id) {
       </div>
     </div>`;
   $("#modal").classList.add("open"); document.body.classList.add("lock");
+  fitModalImage(imgs[0]);
+}
+// รูปในหน้ารายละเอียดเป็นกรอบสี่เหลี่ยมจัตุรัส: รูปที่ยาวหรือกว้างผิดสัดส่วนมากจะแสดงเต็มชิ้น
+function fitModalImage(u) {
+  const main = $("#mmain"); if (!main || !u) return;
+  const probe = new Image();
+  probe.onload = () => main.classList.toggle("fit", Math.abs(probe.naturalWidth / probe.naturalHeight - 1) > 0.3);
+  probe.src = u;
 }
 function closeModal() { $("#modal").classList.remove("open"); document.body.classList.remove("lock"); }
 
@@ -769,7 +861,7 @@ document.addEventListener("click", e => {
   const prod = e.target.closest("[data-pid]");
   if (prod) { openProduct(prod.dataset.pid); return; }
   const th = e.target.closest("[data-thumb]");
-  if (th) { $("#mmain").style.backgroundImage = `url('${th.dataset.thumb}')`; $$(".thumbs img").forEach(i => i.classList.toggle("on", i === th)); return; }
+  if (th) { $("#mmain").style.backgroundImage = `url('${th.dataset.thumb}')`; fitModalImage(th.dataset.thumb); $$(".thumbs img").forEach(i => i.classList.toggle("on", i === th)); return; }
   if (e.target.matches("[data-close]") || e.target.id === "modal") closeModal();
 });
 document.addEventListener("keydown", e => {
@@ -794,3 +886,4 @@ load();
 </script>
 </body>
 </html>
+
