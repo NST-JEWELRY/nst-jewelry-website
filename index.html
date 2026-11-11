@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NST JEWELRY — เครื่องประดับและเพชรหรูสมัยใหม่</title>
+<meta name="description" content="NST JEWELRY — เครื่องประดับและเพชรหรูสมัยใหม่ แหวนเพชร แหวนหมั้น แหวนแต่งงาน ต่างหู สร้อยคอ กำไล และบริการสั่งทำเครื่องประดับ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!--
+  =====================================================================
+  NST JEWELRY — หน้าเว็บรุ่นทดสอบที่เชื่อมกับ Supabase
+  ข้อมูลทั้งหมด (ข้อมูลร้าน หมวดหมู่ สินค้า ราคา รีวิว โปรโมชัน FAQ)
+  ดึงข้อมูลที่เผยแพร่จาก Supabase ทุกครั้งที่เปิดหน้า
+  แก้ข้อมูลในหลังบ้าน → รีเฟรชหน้านี้ → เห็นข้อมูลใหม่ทันที
+  =====================================================================
+-->
+<style>
+:root{
+  --gold:#C6A15B; --gold-dark:#A8843F; --navy:#0B1220;
+  --text:#1c1c1c; --muted:#6b6b6b; --line:#e7e2d8; --soft:#f7f6f3; --white:#fff;
+  --serif:"Cormorant Garamond","IBM Plex Sans Thai",Georgia,serif;
+  --sans:"IBM Plex Sans Thai",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--text);background:var(--white);line-height:1.7;-webkit-font-smoothing:antialiased}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+.eyebrow{font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);font-weight:500}
+h1,h2,h3{font-weight:400;line-height:1.3}
+h2{font-size:clamp(28px,4vw,40px);margin:10px 0 14px}
+.center{text-align:center}
+.lead{color:var(--muted);max-width:620px;margin:0 auto}
+.pre{white-space:pre-line}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 32px;font-size:14px;letter-spacing:.08em;border:1px solid var(--gold);transition:.25s;cursor:pointer;font-family:var(--sans);background:none}
+.btn-gold{background:var(--gold);color:#111}
+.btn-gold:hover{background:var(--gold-dark);border-color:var(--gold-dark)}
+.btn-ghost{color:#fff;border-color:rgba(255,255,255,.7)}
+.btn-ghost:hover{background:#fff;color:#111}
+.btn-line{color:var(--text);border-color:var(--text)}
+.btn-line:hover{background:var(--text);color:#fff}
+section{padding:96px 0}
+.hide{display:none!important}
+.page-hidden{display:none!important}
+.page-hero{display:none;min-height:250px;padding:90px 0 70px;background:#111 center/cover no-repeat;color:#fff;position:relative;text-align:center}
+.page-hero::before{content:"";position:absolute;inset:0;background:rgba(6,10,16,.58)}
+.page-hero .wrap{position:relative;z-index:1}
+.page-hero h1{font-size:clamp(38px,5vw,60px);margin:8px 0 4px}
+.page-hero p{color:rgba(255,255,255,.8)}
+body:not([data-view="home"]) header{background:#fff;color:#171717;margin-bottom:0;border-bottom:1px solid #eee}
+body:not([data-view="home"]) header.scrolled{background:rgba(255,255,255,.97);color:#171717}
+body:not([data-view="home"]) .burger{color:#171717}
+body:not([data-view="home"]) .menu .btn{background:#111;border-color:#111;color:#fff}
+body[data-view="custom"] #customHero,body[data-view="services"] #servicesHero,body[data-view="about"] #aboutHero,body[data-view="collections"] #collectionsHero,body[data-view="contact"] #contactHero{display:block}
+body[data-view="custom"] #custom,body[data-view="about"] #about{background:#fff;color:#1c1c1c}
+body[data-view="custom"] #custom p,body[data-view="about"] #about p{color:var(--muted)}
+body[data-view="custom"] #custom .btn{color:#111}
+body[data-view="collections"] #shop{background:#fff;padding-top:62px}
+body[data-view="collections"] #shop .eyebrow{display:none}
+body[data-view="contact"] #contact{padding-top:62px}
+
+/* Promo bar */
+.promo{background:var(--gold);color:#111;font-size:13px;text-align:center;padding:8px 44px 8px 16px;position:relative;z-index:60}
+.promo a{text-decoration:underline;margin-left:8px;font-weight:500}
+.promo button{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:0;font-size:18px;cursor:pointer}
+
+/* Header */
+header{position:sticky;top:0;z-index:50;transition:.3s;color:#fff;background:transparent;margin-bottom:-76px}
+header.scrolled{background:rgba(11,18,32,.96);backdrop-filter:blur(8px)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+.logo{display:flex;align-items:flex-start;gap:8px;font-family:var(--serif)}
+.logo b{font-size:28px;letter-spacing:.3em;font-weight:500}
+.logo small{font-size:11px;letter-spacing:.3em;font-family:var(--sans);margin-top:2px}
+.menu{display:flex;gap:26px;align-items:center;font-size:14px}
+.menu > a,.dd > span{opacity:.88;cursor:pointer}
+.menu > a:hover,.dd:hover > span{opacity:1;color:var(--gold)}
+.dd{position:relative}
+.dd-list{position:absolute;top:100%;left:-16px;background:#fff;color:var(--text);min-width:190px;padding:10px 0;opacity:0;visibility:hidden;transform:translateY(6px);transition:.2s;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+.dd:hover .dd-list{opacity:1;visibility:visible;transform:none}
+.dd-list a{display:block;padding:8px 20px;font-size:14px}
+.dd-list a:hover{background:var(--soft);color:var(--gold-dark)}
+.menu .btn{padding:10px 20px}
+.burger{display:none;background:none;border:0;color:#fff;cursor:pointer}
+.mobile{display:none;position:fixed;inset:76px 0 0 0;background:var(--navy);padding:24px 20px;overflow:auto;z-index:49}
+.mobile.open{display:block}
+.mobile a{display:block;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.08);color:#fff}
+.mobile .sub{padding-left:16px;font-size:14px;opacity:.8}
+.mobile .btn{margin-top:20px;width:100%}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;align-items:center;color:#fff;position:relative;overflow:hidden;
+  background:radial-gradient(ellipse at 80% 10%,rgba(198,161,91,.18),transparent 55%),linear-gradient(160deg,#0B1220 0%,#121a2b 55%,#070b14 100%)}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.4}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,18,32,.85),rgba(11,18,32,.25))}
+.hero .wrap{position:relative;z-index:1;padding-top:76px;width:100%}
+.hero h1{font-size:clamp(32px,5.5vw,60px);max-width:760px;margin:18px 0}
+.hero p{color:rgba(255,255,255,.78);max-width:520px;margin-bottom:36px}
+.hero .actions{display:flex;gap:16px;flex-wrap:wrap}
+
+/* Categories */
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:48px}
+.cat{position:relative;aspect-ratio:3/4;overflow:hidden;background:linear-gradient(160deg,#1d2433,#0B1220);color:#fff;cursor:pointer}
+.cat img{width:100%;height:100%;object-fit:cover;transition:transform .7s}
+.cat:hover img{transform:scale(1.06)}
+.cat .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78),rgba(0,0,0,0) 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:22px}
+.cat h3{font-size:22px}
+.cat .d{font-size:12px;opacity:.75}
+.cat .go{font-size:13px;color:var(--gold);margin-top:8px}
+
+/* Products */
+.products{background:var(--soft)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:32px}
+.chip{padding:8px 18px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;font-family:var(--sans);transition:.2s}
+.chip:hover{border-color:var(--gold)}
+.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.grid-p{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
+.prod{background:#fff;transition:.3s;cursor:pointer;text-align:left}
+.prod:hover{box-shadow:0 14px 34px rgba(0,0,0,.08);transform:translateY(-3px)}
+.prod .ph{position:relative;aspect-ratio:3/4;background:linear-gradient(145deg,#ece8df,#d9d2c3);overflow:hidden}
+.prod .ph img{width:100%;height:100%;object-fit:cover}
+.tags{position:absolute;top:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:11px;padding:3px 10px;background:#fff;letter-spacing:.05em}
+.tag.new{background:var(--gold);color:#111}
+.tag.sale{background:#8b1e1e;color:#fff}
+.prod .info{padding:16px}
+.prod .c{font-size:12px;color:var(--muted)}
+.prod h3{font-family:var(--serif);font-size:19px;margin:4px 0 6px}
+.price{font-size:14px;color:var(--gold-dark)}
+.price s{color:var(--muted);margin-right:6px;font-size:12px}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
+
+/* Skeleton */
+.sk{background:linear-gradient(90deg,#eee 25%,#f6f6f6 50%,#eee 75%);background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+
+/* Why */
+.why{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:56px}
+.why div{border-top:1px solid var(--gold);padding-top:22px}
+.why .n{font-family:var(--serif);color:var(--gold);font-size:28px}
+.why h3{font-size:19px;margin:6px 0 8px;font-weight:500}
+.why p{color:var(--muted);font-size:14px}
+
+/* Split sections */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.split .img{aspect-ratio:16/9;background:#1d2433 center/cover no-repeat}
+.dark{background:var(--navy);color:#fff}
+.dark p{color:rgba(255,255,255,.78)}
+.dark .btn{color:var(--gold)}
+.dark .btn:hover{background:var(--gold);color:#111}
+.about p,.services p{color:var(--muted)}
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+.svc article{background:#fff;border:1px solid var(--line)}
+.svc .img{aspect-ratio:16/9;background:#ddd center/cover}
+.svc .tx{padding:26px}
+.svc h3{font-family:var(--serif);font-size:24px;margin-bottom:8px}
+.about-main-photo{margin:0;overflow:hidden;background:#f2f0eb}
+.about-main-photo img{width:100%;height:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 38%}
+.store-gallery{display:grid;grid-template-columns:.86fr 1.4fr;grid-template-rows:1fr 1fr;gap:18px;margin-top:56px}
+.store-gallery figure{overflow:hidden;background:#f2f0eb;position:relative}
+.store-gallery figure:first-child{grid-row:1/3}
+.store-gallery img{width:100%;height:100%;object-fit:cover}
+.store-gallery figure:first-child img{aspect-ratio:3/4;object-position:center 42%}
+.store-gallery figure:not(:first-child) img{aspect-ratio:16/9}
+.store-gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:28px 18px 14px;background:linear-gradient(transparent,rgba(0,0,0,.72));color:#fff;font-size:13px;letter-spacing:.04em}
+
+/* Reviews */
+.reviews{background:var(--soft)}
+.rv{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:48px 0 0}
+.rv blockquote{background:#fff;padding:32px 28px;font-size:15px;text-align:left}
+.stars{color:var(--gold);letter-spacing:3px;margin-bottom:12px}
+.rv cite{display:block;margin-top:16px;font-style:normal;font-size:13px;color:var(--muted)}
+
+/* FAQ */
+.faq{max-width:820px;margin:44px auto 0}
+.faq details{border-bottom:1px solid var(--line);padding:18px 0}
+.faq summary{cursor:pointer;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::after{content:"+";color:var(--gold);font-size:22px;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq .ans{color:var(--muted);margin-top:10px;white-space:pre-line}
+
+/* CTA */
+.cta{background:linear-gradient(160deg,#0B1220,#141c2e);color:#fff;text-align:center}
+.cta h2{max-width:640px;margin:14px auto 32px}
+.cta .actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* Contact */
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;margin-top:44px;align-items:start}
+.cbox{border:1px solid var(--line);padding:30px}
+.cbox .row{padding:12px 0;border-bottom:1px solid var(--line)}
+.cbox .row:last-child{border:0}
+.cbox small{display:block;font-size:11px;letter-spacing:.2em;color:var(--gold-dark)}
+.cbox .row>a:not(.btn),.cbox .row>span{font-family:var(--sans);font-size:17px;line-height:1.6;font-weight:400;letter-spacing:0;font-variant-numeric:tabular-nums}
+.qr{width:120px;margin-top:10px}
+.map{width:100%;aspect-ratio:4/3;border:0;background:#eee}
+
+/* Footer */
+footer{background:#0a0a0a;color:rgba(255,255,255,.7);padding:72px 0 28px;font-size:14px}
+.fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.4fr;gap:40px}
+footer h4{color:#fff;font-size:12px;letter-spacing:.22em;font-weight:500;margin-bottom:16px}
+footer a{display:block;padding:4px 0}
+footer a:hover{color:var(--gold)}
+.social{display:flex;gap:12px;margin-top:18px}
+.social a{min-width:38px;height:38px;padding:0 10px;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;font-size:12px}
+.fbot{border-top:1px solid rgba(255,255,255,.08);margin-top:52px;padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px}
+
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(5,8,15,.7);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.mbox{background:#fff;max-width:980px;width:100%;max-height:92vh;overflow:auto;display:grid;grid-template-columns:1fr 1fr;position:relative}
+.mclose{position:absolute;right:14px;top:10px;font-size:28px;background:none;border:0;cursor:pointer;z-index:2}
+.mgal .main{aspect-ratio:1;background:#eee center/cover}
+.thumbs{display:flex;gap:6px;padding:6px}
+.thumbs img{width:60px;height:60px;object-fit:cover;cursor:pointer;opacity:.6}
+.thumbs img.on{opacity:1;outline:1px solid var(--gold)}
+.mtx{padding:36px 32px}
+.mtx h3{font-family:var(--serif);font-size:32px;margin:6px 0 10px}
+.mtx .price{font-size:20px;margin-bottom:18px}
+.specs{margin:20px 0;border-top:1px solid var(--line)}
+.specs div{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.specs span:first-child{color:var(--muted)}
+.mtx .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+
+.status{position:fixed;left:16px;bottom:16px;background:#fff3cd;color:#664d03;font-size:13px;padding:10px 14px;box-shadow:0 6px 20px rgba(0,0,0,.12);z-index:90;max-width:360px}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:none}
+
+/* Typography alignment with the original NST/Base44 presentation */
+body{font-size:16px;letter-spacing:-.005em}
+.menu{font-size:15px;font-weight:500;gap:30px}
+.hero h1{max-width:620px;line-height:1.18;letter-spacing:-.025em;margin:16px 0 18px}
+.hero p{font-size:17px;line-height:1.65;max-width:560px;margin-bottom:32px}
+h2{line-height:1.25;letter-spacing:-.015em}
+.lead{font-size:16px;line-height:1.75}
+.btn{min-height:48px;font-weight:500}
+.cat h3,.prod h3,.why h3,.svc h3,.faq summary{line-height:1.4}
+.cbox .row{font-size:15px}
+
+@media(max-width:1024px){
+  .menu{display:none}.burger{display:block}
+  .cats,.grid-p{grid-template-columns:repeat(2,1fr)}
+  .why{grid-template-columns:repeat(2,1fr)}
+  .svc{grid-template-columns:1fr 1fr}
+  .fgrid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:720px){
+  section{padding:72px 0}
+  .hero h1{font-size:clamp(38px,11vw,50px);max-width:100%;line-height:1.16}
+  .hero p{font-size:16px;line-height:1.65}
+  h2{font-size:clamp(30px,9vw,38px)}
+  .split,.rv,.svc,.contact-grid,.mbox{grid-template-columns:1fr}
+  .split{gap:36px}
+  .store-gallery{grid-template-columns:1fr;grid-template-rows:auto;gap:12px;margin-top:40px}
+  .store-gallery figure:first-child{grid-row:auto}
+  .store-gallery figure:first-child img,.store-gallery figure:not(:first-child) img{aspect-ratio:4/3;object-position:center}
+  .why,.fgrid{grid-template-columns:1fr}
+  .cats,.grid-p{gap:12px}
+  .hero .btn{width:100%}
+  .mtx{padding:24px 20px}
+}
+</style>
+<meta name="robots" content="noindex,nofollow"><meta name="mobile-web-app-capable" content="yes"></head>
+<body>
+
+<div class="promo hide" id="promo"></div>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="?view=home#top" class="logo"><b>NST</b><small>JEWELRY</small></a>
+    <nav class="menu">
+      <a href="?view=home#top">หน้าหลัก</a>
+      <div class="dd"><span>สินค้า ▾</span><div class="dd-list" data-catlinks></div></div>
+      <a href="?view=custom#customHero">สั่งทำเครื่องประดับ</a>
+      <a href="?view=services#servicesHero">บริการ</a>
+      <a href="?view=about#aboutHero">เกี่ยวกับเรา</a>
+      <a href="?view=home#faq">คำถามที่พบบ่อย</a>
+      <a href="?view=contact#contactHero">ติดต่อเรา</a>
+      <a href="?view=contact#contact" class="btn btn-gold">นัดหมายเข้าชม</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="เมนู">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="mobile" id="mobile">
+  <a href="?view=home#top">หน้าหลัก</a>
+  <a href="?view=collections#shop">สินค้า</a>
+  <div data-catlinks data-sub></div>
+  <a href="?view=custom#customHero">สั่งทำเครื่องประดับ</a>
+  <a href="?view=services#servicesHero">บริการ</a>
+  <a href="?view=about#aboutHero">เกี่ยวกับเรา</a>
+  <a href="?view=home#reviews">รีวิว</a>
+  <a href="?view=home#faq">คำถามที่พบบ่อย</a>
+  <a href="?view=contact#contactHero">ติดต่อเรา</a>
+  <a href="?view=contact#contact" class="btn btn-gold">นัดหมายเข้าชม</a>
+</div>
+
+<section class="hero" id="top">
+  <img class="hero-bg" id="heroBg" alt="" aria-hidden="true">
+  <div class="wrap">
+    <div class="eyebrow">Timeless Jewelry, Made For You.</div>
+    <h1 data-bi="homepageHeadline">เครื่องประดับที่สะท้อนความพิเศษในแบบของคุณ</h1>
+    <p data-bi="homepageSubtext">คัดสรรและสร้างสรรค์เครื่องประดับด้วยความใส่ใจในทุกรายละเอียด</p>
+    <div class="actions">
+      <a href="?view=collections#shop" class="btn btn-gold">เลือกชมสินค้า</a>
+      <a href="?view=contact#contact" class="btn btn-ghost">ปรึกษาเรา</a>
+    </div>
+  </div>
+</section>
+
+<section class="page-hero" id="collectionsHero">
+  <div class="wrap"><div class="eyebrow">Collections</div><h1>คอลเลกชันเครื่องประดับ</h1><p>เลือกชมชิ้นงานตามหมวดหมู่และความต้องการของคุณ</p></div>
+</section>
+<section class="page-hero" id="customHero" data-bg="customJewelryImage">
+  <div class="wrap"><div class="eyebrow">Custom Jewelry</div><h1>ออกแบบและสั่งทำเครื่องประดับ</h1><p>ออกแบบรอบตัวคุณ — ตั้งแต่ภาพร่างแรกจนถึงขั้นตอนสุดท้าย</p></div>
+</section>
+<section class="page-hero" id="servicesHero" data-bg="aboutImage">
+  <div class="wrap"><div class="eyebrow">Our Services</div><h1>บริการของเรา</h1><p>บริการเครื่องประดับครบวงจรโดยช่างผู้ชำนาญ</p></div>
+</section>
+<section class="page-hero" id="aboutHero">
+  <div class="wrap"><div class="eyebrow">Our Story</div><h1>เกี่ยวกับเรา</h1></div>
+</section>
+<section class="page-hero" id="contactHero">
+  <div class="wrap"><div class="eyebrow">Get In Touch</div><h1>ติดต่อเรา</h1><p>มีคำถาม ขอสั่งทำ หรือนัดหมายเข้าชม — ยินดีรับการติดต่อเสมอ</p></div>
+</section>
+
+<section id="collections">
+  <div class="wrap center reveal">
+    <div class="eyebrow">คอลเลกชัน</div>
+    <h2>สำรวจตามหมวดหมู่</h2>
+    <p class="lead">คัดสรรจากหมวดหมู่ที่ลูกค้ารักมากที่สุด คอลเลกชันของเราเติบโตขึ้นเรื่อยๆ</p>
+  </div>
+  <div class="wrap cats" id="cats">
+    <div class="cat sk"></div><div class="cat sk"></div><div class="cat sk"></div><div class="cat sk"></div>
+  </div>
+</section>
+
+<section class="products" id="shop">
+  <div class="wrap center reveal">
+    <div class="eyebrow">Signature Pieces</div>
+<h2>สินค้าแนะนำ</h2>
+    <p class="lead">ตัวอย่างงานฝีมือของเรา กดที่สินค้าเพื่อดูรายละเอียดและราคา</p>
+    <div class="chips" id="chips"></div>
+  </div>
+  <div class="wrap grid-p" id="prods">
+    <div class="prod"><div class="ph sk"></div></div><div class="prod"><div class="ph sk"></div></div>
+    <div class="prod"><div class="ph sk"></div></div><div class="prod"><div class="ph sk"></div></div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="center reveal">
+      <div class="eyebrow">The NST Standard</div>
+      <h2>ทำไมเลือก NST JEWELRY</h2>
+    </div>
+    <div class="why reveal">
+      <div><span class="n">01</span><h3>ฝีมือการผลิต</h3><p>ทุกชิ้นถูกสร้างด้วยมือด้วยความแม่นยำและความอดทน มาตรฐานที่เราไม่เคยประนีประนอม</p></div>
+      <div><span class="n">02</span><h3>คุณภาพและความน่าเชื่อถือ</h3><p>วัสดุที่มีแหล่งที่มาอย่างรับผิดชอบ พร้อมการตรวจสอบคุณภาพอย่างพิถีพิถันในทุกชิ้นงาน</p></div>
+      <div><span class="n">03</span><h3>ดีไซน์เป็นนิรันดร์</h3><p>ดีไซน์เรียบง่ายแต่คงทน ออกแบบให้สวมใส่และหวงแหนไปตลอดชีวิต</p></div>
+      <div><span class="n">04</span><h3>บริการสั่งทำ</h3><p>เครื่องประดับสั่งทำออกแบบรอบเรื่องราวของคุณ ตั้งแต่ภาพร่างแรกจนถึงขั้นตอนสุดท้าย</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="custom">
+  <div class="wrap split">
+    <div class="img reveal" data-bg="customJewelryImage"></div>
+    <div class="reveal">
+      <div class="eyebrow">Custom Jewelry</div>
+      <h2>ออกแบบและสั่งทำเครื่องประดับ</h2>
+      <p class="pre" data-bi="customJewelryContent">บริการสั่งทำของเราเป็นกระบวนการที่ชัดเจนและใส่ใจ</p>
+      <p class="pre" style="margin-top:14px" data-bi="diamondContent"></p>
+      <div style="margin-top:32px"><a href="?view=contact#contact" class="btn">ปรึกษาการสั่งทำ</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="center reveal">
+      <div class="eyebrow">Our Services</div>
+      <h2>บริการของเรา</h2>
+      <p class="lead pre" data-bi="servicesContent"></p>
+    </div>
+    <div class="svc reveal">
+      <article><div class="img" data-bg="craftsmanshipImage"></div><div class="tx"><h3>การผลิตและงานฝีมือ</h3><p class="pre" data-bi="aboutContent" data-first></p></div></article>
+      <article><div class="img" style="background-image:url('./assets/diamond-inspection.png')"></div><div class="tx"><h3>การตรวจเพชรด้วยเครื่องมือ</h3><p>ตรวจสอบเพชรด้วยเครื่องมือเฉพาะทาง เพื่อช่วยประเมินและคัดกรองก่อนดำเนินงานในขั้นตอนต่อไป</p></div></article>
+      <article><div class="img" data-bg="afterSalesImage"></div><div class="tx"><h3>บริการหลังการขาย</h3><p class="pre" data-bi="afterSalesContent"></p></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="dark about" id="about">
+  <div class="wrap split">
+    <div class="reveal">
+      <div class="eyebrow">About Us</div>
+      <h2>เกี่ยวกับ <span data-bi="businessName">NST JEWELRY</span></h2>
+      <p class="pre" data-bi="aboutContent"></p>
+    </div>
+    <figure class="about-main-photo reveal"><img src="./assets/storefront.jpg" alt="หน้าร้าน NST JEWELRY" loading="lazy"></figure>
+  </div>
+  <div class="wrap store-gallery reveal" aria-label="ภาพหน้าร้านและภายในร้าน NST JEWELRY">
+    <figure><img src="./assets/storefront.jpg" alt="หน้าร้าน NST JEWELRY" loading="lazy"><figcaption>หน้าร้าน NST JEWELRY</figcaption></figure>
+    <figure><img src="./assets/store-interior.jpg" alt="บรรยากาศภายในร้าน NST JEWELRY" loading="lazy"><figcaption>บรรยากาศภายในร้าน</figcaption></figure>
+    <figure><img src="./assets/store-interior-wall.png" alt="พื้นที่จัดแสดงแบบเครื่องประดับภายในร้าน" loading="lazy"><figcaption>พื้นที่จัดแสดงแบบเครื่องประดับ</figcaption></figure>
+  </div>
+</section>
+
+<section class="reviews" id="reviews">
+  <div class="wrap center reveal">
+    <div class="eyebrow">Kind Words</div>
+    <h2>รีวิวจากลูกค้า</h2>
+    <div class="rv" id="rv"></div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap reveal">
+    <div class="center">
+      <div class="eyebrow">FAQ</div>
+      <h2>คำถามที่พบบ่อย</h2>
+    </div>
+    <div class="faq" id="faqList"></div>
+  </div>
+</section>
+
+<section class="cta" id="homeCta">
+  <div class="wrap reveal">
+    <div class="eyebrow">Begin Your Story</div>
+    <h2>มาค้นหาหรือสร้างสรรค์ชิ้นงานที่เป็นของคุณอย่างแท้จริง</h2>
+    <div class="actions">
+      <a href="?view=collections#shop" class="btn btn-gold">เลือกชมสินค้า</a>
+      <a href="?view=contact#contact" class="btn btn-ghost">นัดหมายปรึกษา</a>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="center reveal">
+      <div class="eyebrow">Contact</div>
+      <h2>ติดต่อเรา</h2>
+      <p class="lead" data-bi="contactIntro">มีคำถาม ขอสั่งทำ หรือนัดหมายเข้าชม — ยินดีรับการติดต่อเสมอ</p>
+    </div>
+    <div class="contact-grid reveal">
+      <div class="cbox">
+        <div class="row"><small>โทรศัพท์</small><a data-tel></a></div>
+        <div class="row"><small>เวลาทำการ</small><span data-bi="openingHours"></span></div>
+        <div class="row"><small>ที่อยู่</small><span class="pre" data-bi="address"></span></div>
+        <div class="row" data-if="lineQrImage"><small>LINE</small><a data-href="lineUrl" target="_blank" rel="noopener"><img class="qr" data-src="lineQrImage" alt="LINE QR"></a></div>
+        <div class="row"><a class="btn btn-gold" data-href="googleMapsUrl" target="_blank" rel="noopener" style="width:100%">ดูเส้นทาง (Google Maps)</a></div>
+      </div>
+      <iframe class="map" data-src="mapEmbed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="แผนที่ร้าน"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a href="?view=home#top" class="logo" style="color:#fff;display:flex"><b>NST</b><small>JEWELRY</small></a>
+        <p style="margin-top:16px" data-bi="footerDescription"></p>
+        <div class="social" id="social"></div>
+      </div>
+      <div><h4>COLLECTIONS</h4><div data-catlinks></div></div>
+      <div>
+        <h4>เมนูหลัก</h4>
+        <a href="?view=about#aboutHero">เกี่ยวกับเรา</a><a href="?view=services#servicesHero">บริการ</a><a href="?view=custom#customHero">สั่งทำเครื่องประดับ</a>
+        <a href="?view=home#reviews">รีวิว</a><a href="?view=home#faq">คำถามที่พบบ่อย</a><a href="?view=contact#contactHero">ติดต่อเรา</a>
+      </div>
+      <div>
+        <h4>ติดต่อเรา</h4>
+        <a data-tel style="color:#fff;font-size:18px"></a>
+        <p data-bi="openingHours"></p>
+        <p class="pre" style="margin-top:10px" data-bi="address"></p>
+        <a data-href="googleMapsUrl" target="_blank" rel="noopener" style="color:var(--gold);margin-top:8px">ดูเส้นทาง (Google Maps) →</a>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© <span id="yr"></span> <span data-bi="businessName">NST JEWELRY</span>. สงวนลิขสิทธิ์ทุกประการ</span>
+    </div>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="mbox" id="mbox"></div>
+</div>
+
+<div class="status hide" id="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>window.NST_SUPABASE_URL = "https://hdlfiiwtupyschjddazy.supabase.co";
+window.NST_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_5DrxUvUuFx1zDx9q23eJ7Q_COopY_Lj";
+
+</script>
+<script>
+/* ====== ตั้งค่าการเชื่อมต่อหลังบ้าน Supabase ====== */
+const db = window.supabase.createClient(window.NST_SUPABASE_URL, window.NST_SUPABASE_PUBLISHABLE_KEY);
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl = u => /^(https?:|tel:|mailto:|\/|#|\.\/|assets\/)/i.test(String(u||"").trim()) ? String(u).trim() : "";
+
+async function query(table, configure = q => q) {
+  const { data, error } = await configure(db.from(table).select("*"));
+  if (error) throw error;
+  return data || [];
+}
+
+const mapBusiness = x => ({...x,
+  businessName:x.business_name, aboutText:x.about_text, lineUrl:x.line_url,
+  homepageHeadline:x.homepage_headline, homepageSubtext:x.homepage_subtext,
+  customJewelryContent:x.custom_jewelry_content, diamondContent:x.diamond_content,
+  servicesContent:x.services_content, aboutContent:x.about_text,
+  afterSalesContent:x.after_sales_content, contactIntro:x.contact_intro,
+  openingHours:x.hours, footerDescription:x.footer_description,
+  lineQrImage:x.line_qr_image, googleMapsUrl:x.google_maps_url, mapEmbed:x.map_embed,
+  craftsmanshipImage:x.craftsmanship_image, afterSalesImage:x.after_sales_image,
+  logoUrl:x.logo_url, homeHeroImage:x.home_hero_image,
+  categoryRingsImage:x.category_rings_image, categoryNecklacesImage:x.category_necklaces_image,
+  categoryEarringsImage:x.category_earrings_image, categoryBraceletsImage:x.category_bracelets_image,
+  categoryPendantsImage:x.category_pendants_image
+});
+const mapCategory = x => ({...x, image:x.image_url, order:x.sort_order});
+const mapProduct = x => ({...x,
+  category:x.categories?.slug, priceOnRequest:x.price_on_request,
+  promotionalPrice:x.promotional_price, newProduct:x.new_product,
+  diamondCarat:x.diamond_carat, diamondCut:x.diamond_cut, diamondColor:x.diamond_color,
+  diamondClarity:x.diamond_clarity, ringSize:x.ring_size,
+  customizationAvailable:x.customization_available, careInstructions:x.care_instructions
+});
+const mapReview = x => ({...x, customerName:x.customer_name, text:x.review_text,
+  date:x.review_date, displayStatus:x.display_status, isDemo:x.is_demo});
+const mapFAQ = x => ({...x, order:x.sort_order, displayStatus:x.display_status});
+const mapPromotion = x => ({...x, ctaText:x.cta_text, ctaLink:x.cta_link,
+  startDate:x.start_date, endDate:x.end_date});
+
+const AVAIL = { made_to_order:"สั่งผลิต", in_stock:"มีสินค้าพร้อมส่ง", out_of_stock:"สินค้าหมด", pre_order:"พรีออเดอร์", sold_out:"ขายแล้ว" };
+const SPEC_LABELS = [
+  ["sku","รหัสสินค้า"],["materials","วัสดุ"],["weight","น้ำหนัก"],["diamondCarat","กะรัต"],
+  ["diamondCut","การเจียระไน (Cut)"],["diamondColor","สี (Color)"],["diamondClarity","ความสะอาด (Clarity)"],
+  ["certification","ใบรับรอง"],["ringSize","ขนาดแหวน"],["collection","คอลเลกชัน"],["warranty","การรับประกัน"]
+];
+
+const LOCAL_ASSETS = {
+  hero: "./assets/hero.png",
+  categories: {
+    "diamond-rings": "./assets/category-diamond-rings.png",
+    "engagement-rings": "./assets/category-engagement-rings.png",
+    "wedding-rings": "./assets/category-wedding-rings.png",
+    "earrings": "./assets/category-earrings.png",
+    "necklaces": "./assets/category-necklaces.png",
+    "bracelets": "./assets/category-bracelets.png",
+    "other-jewelry": "./assets/category-other-jewelry.png"
+  },
+  products: {
+    "pave-diamond-earrings": "./assets/product-pave-diamond-earrings.webp",
+    "diamond-pendant-necklace": "./assets/product-diamond-pendant-necklace.webp",
+    "eternity-wedding-band": "./assets/product-eternity-wedding-band.webp",
+    "classic-solitaire-diamond-ring": "./assets/product-classic-solitaire-diamond-ring.webp",
+    "halo-engagement-ring": "./assets/product-halo-engagement-ring.webp"
+  },
+  sections: {
+    customJewelryImage: "./assets/section-custom-jewelry.png",
+    craftsmanshipImage: "./assets/section-craftsmanship.png",
+    afterSalesImage: "./assets/section-after-sales.png",
+    aboutImage: "./assets/section-about.png",
+    lineQrImage: "./assets/line-qr.png"
+  }
+};
+
+const ROUTE_PARAMS = new URLSearchParams(location.search);
+const VIEW = ["home","collections","custom","services","about","contact"].includes(ROUTE_PARAMS.get("view")) ? ROUTE_PARAMS.get("view") : "home";
+document.body.dataset.view = VIEW;
+let BI = {}, CATS = [], PRODUCTS = [], currentCat = ROUTE_PARAMS.get("cat") || "all";
+
+function applyViewLayout() {
+  const views = {
+    home:["top","collections","shop","why","custom","reviews","faq","homeCta"],
+    collections:["collectionsHero","shop"],
+    custom:["customHero","custom"],
+    services:["servicesHero","services"],
+    about:["aboutHero","about","homeCta"],
+    contact:["contactHero","contact"]
+  };
+  const shown = new Set(views[VIEW] || views.home);
+  document.querySelectorAll("body > section").forEach(section => section.classList.toggle("page-hidden", !shown.has(section.id)));
+  if (VIEW === "collections") {
+    const title = document.querySelector("#shop h2"), lead = document.querySelector("#shop .lead");
+    if (title) title.textContent = "คอลเลกชันเครื่องประดับ";
+    if (lead) lead.textContent = "เลือกชมสินค้าและกรองตามหมวดหมู่ได้จากรายการด้านล่าง";
+  }
+}
+applyViewLayout();
+
+function money(n, cur) {
+  try { return new Intl.NumberFormat("th-TH",{style:"currency",currency:cur||"THB",maximumFractionDigits:0}).format(n); }
+  catch { return "฿" + Number(n).toLocaleString("th-TH"); }
+}
+function priceHTML(p) {
+  if (p.priceOnRequest || p.price == null || p.price === "") return "สอบถามราคา";
+  if (p.promotion && p.promotionalPrice != null && p.promotionalPrice !== "")
+    return `<s>${money(p.price,p.currency)}</s>${money(p.promotionalPrice,p.currency)}`;
+  return money(p.price, p.currency);
+}
+function catImage(slug) {
+  const key = "category" + slug.split("-").map(w => w[0].toUpperCase() + w.slice(1)).join("") + "Image";
+  return BI[key] || LOCAL_ASSETS.categories[slug] || "";
+}
+const catName = slug => (CATS.find(c => c.slug === slug) || {}).name || "";
+
+/* ---------- ข้อมูลร้าน ---------- */
+function renderBusiness() {
+  $$("[data-bi]").forEach(el => {
+    let v = BI[el.dataset.bi];
+    if (v == null || v === "") { if (!el.textContent.trim()) el.classList.add("hide"); return; }
+    if (el.hasAttribute("data-first")) v = String(v).split(/\n\s*\n/)[0];
+    el.textContent = v; el.classList.remove("hide");
+  });
+  $$("[data-bg]").forEach(el => { const u = safeUrl(BI[el.dataset.bg]); if (u) el.style.backgroundImage = `url("${u}")`; });
+  $$("[data-href]").forEach(el => { const u = safeUrl(BI[el.dataset.href]); u ? el.href = u : el.classList.add("hide"); });
+  $$("[data-src]").forEach(el => { const u = safeUrl(BI[el.dataset.src]); u ? el.src = u : el.classList.add("hide"); });
+  $$("[data-if]").forEach(el => { if (!BI[el.dataset.if]) el.classList.add("hide"); });
+  $$("[data-tel]").forEach(el => { if (BI.phone) { el.textContent = BI.phone; el.href = "tel:" + BI.phone.replace(/[^\d+]/g,""); } });
+  const heroImage = safeUrl(BI.homeHeroImage || LOCAL_ASSETS.hero);
+  if (heroImage) $("#heroBg").src = heroImage;
+  if (BI.businessName) document.title = BI.businessName + " — เครื่องประดับและเพชรหรูสมัยใหม่";
+  const social = [["facebook","Facebook"],["lineUrl","LINE"],["instagram","Instagram"],["tiktok","TikTok"]]
+    .filter(([k]) => safeUrl(BI[k])).map(([k,l]) => `<a href="${esc(safeUrl(BI[k]))}" target="_blank" rel="noopener">${l}</a>`).join("");
+  $("#social").innerHTML = social;
+}
+
+/* ---------- หมวดหมู่ ---------- */
+function renderCategories() {
+  const withProducts = new Set(PRODUCTS.map(p => p.category));
+  // แสดงหมวดที่มีรูปในหลังบ้าน หรือมีสินค้าอยู่
+  const visible = CATS;
+  $("#cats").innerHTML = visible.map(c => {
+    const img = safeUrl(c.image || catImage(c.slug));
+    return `<div class="cat reveal" data-cat="${esc(c.slug)}">
+      ${img ? `<img src="${esc(img)}" alt="${esc(c.name)}" loading="lazy" onerror="this.remove()">` : ""}
+      <div class="ov">${c.description ? `<span class="d">${esc(c.description)}</span>` : ""}<h3>${esc(c.name)}</h3><span class="go">เลือกชม →</span></div>
+    </div>`;
+  }).join("");
+  $$("[data-catlinks]").forEach(box => {
+    box.innerHTML = visible.map(c => `<a ${box.hasAttribute("data-sub") ? 'class="sub"' : ""} href="?view=collections&cat=${encodeURIComponent(c.slug)}#shop" data-cat="${esc(c.slug)}">${esc(c.name)}</a>`).join("");
+  });
+  const chipCats = CATS.filter(c => withProducts.has(c.slug));
+  $("#chips").innerHTML = `<button class="chip on" data-chip="all">ทั้งหมด</button>` +
+    chipCats.map(c => `<button class="chip" data-chip="${esc(c.slug)}">${esc(c.name)}</button>`).join("");
+}
+
+/* ---------- สินค้า ---------- */
+function renderProducts() {
+  const list = currentCat === "all" ? PRODUCTS : PRODUCTS.filter(p => p.category === currentCat);
+  $$(".chip").forEach(b => b.classList.toggle("on", b.dataset.chip === currentCat));
+  if (!list.length) { $("#prods").innerHTML = `<div class="empty">ยังไม่มีสินค้าในหมวดนี้ — สอบถามหรือสั่งทำได้เลยครับ</div>`; return; }
+  $("#prods").innerHTML = list.map(p => {
+    const img = safeUrl((p.images || [])[0] || LOCAL_ASSETS.products[p.slug]);
+    return `<div class="prod reveal in" data-pid="${esc(p.id)}" tabindex="0">
+      <div class="ph">
+        ${img ? `<img src="${esc(img)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove()">` : ""}
+        <div class="tags">${p.featured ? '<span class="tag">แนะนำ</span>' : ""}${p.newProduct ? '<span class="tag new">ใหม่</span>' : ""}${p.promotion ? '<span class="tag sale">โปรโมชัน</span>' : ""}</div>
+      </div>
+      <div class="info"><div class="c">${esc(catName(p.category))}</div><h3>${esc(p.name)}</h3><div class="price">${priceHTML(p)}</div></div>
+    </div>`;
+  }).join("");
+}
+
+function openProduct(id) {
+  const p = PRODUCTS.find(x => x.id === id); if (!p) return;
+  const imgs = (p.images || []).map(safeUrl).filter(Boolean);
+  const specs = SPEC_LABELS.filter(([k]) => p[k] != null && p[k] !== "").map(([k,l]) => `<div><span>${l}</span><span>${esc(p[k])}</span></div>`).join("");
+  const line = safeUrl(BI.lineUrl);
+  $("#mbox").innerHTML = `
+    <button class="mclose" aria-label="ปิด" data-close>×</button>
+    <div class="mgal">
+      <div class="main" id="mmain" style="${imgs[0] ? `background-image:url('${esc(imgs[0])}')` : ""}"></div>
+      ${imgs.length > 1 ? `<div class="thumbs">${imgs.map((u,i) => `<img src="${esc(u)}" class="${i?"":"on"}" data-thumb="${esc(u)}" alt="">`).join("")}</div>` : ""}
+    </div>
+    <div class="mtx">
+      <div class="eyebrow">${esc(catName(p.category))}</div>
+      <h3>${esc(p.name)}</h3>
+      <div class="price">${priceHTML(p)}</div>
+      ${p.description ? `<p class="pre" style="color:var(--muted)">${esc(p.description)}</p>` : ""}
+      <div class="specs">
+        ${p.availability ? `<div><span>สถานะ</span><span>${esc(AVAIL[p.availability] || p.availability)}</span></div>` : ""}
+        ${p.customizationAvailable ? `<div><span>สั่งทำ / ปรับแบบ</span><span>รองรับ</span></div>` : ""}
+        ${specs}
+      </div>
+      ${p.careInstructions ? `<p class="pre" style="font-size:13px;color:var(--muted)"><b>การดูแลรักษา:</b> ${esc(p.careInstructions)}</p>` : ""}
+      <div class="actions">
+        ${BI.phone ? `<a class="btn btn-gold" href="tel:${esc(BI.phone.replace(/[^\d+]/g,""))}">โทรสอบถาม</a>` : ""}
+        ${line ? `<a class="btn btn-line" href="${esc(line)}" target="_blank" rel="noopener">สอบถามทาง LINE</a>` : ""}
+      </div>
+    </div>`;
+  $("#modal").classList.add("open"); document.body.classList.add("lock");
+}
+function closeModal() { $("#modal").classList.remove("open"); document.body.classList.remove("lock"); }
+
+/* ---------- รีวิว / FAQ / โปรโมชัน ---------- */
+function renderReviews(list) {
+  if (!list.length) { $("#reviews").classList.add("hide"); return; }
+  $("#rv").innerHTML = list.map(r => `<blockquote>
+    <div class="stars">${"★".repeat(Math.max(0,Math.min(5,r.rating||5)))}</div>
+    “${esc(r.text)}”
+    <cite>${esc(r.customerName)}${r.isDemo ? " · ตัวอย่าง" : ""}${r.date ? " · " + esc(new Date(r.date).toLocaleDateString("th-TH",{year:"numeric",month:"short"})) : ""}</cite>
+  </blockquote>`).join("");
+}
+function renderFAQ(list) {
+  if (!list.length) { $("#faq").classList.add("hide"); return; }
+  $("#faqList").innerHTML = list.map(f => `<details><summary>${esc(f.question)}</summary><div class="ans">${esc(f.answer)}</div></details>`).join("");
+}
+function renderPromo(list) {
+  const today = new Date().toISOString().slice(0,10);
+  const p = list.find(x => x.status === "active" && (!x.startDate || x.startDate <= today) && (!x.endDate || x.endDate >= today));
+  if (!p) return;
+  try { if (sessionStorage.getItem("promoClosed") === p.id) return; } catch {}
+  let link = String(p.ctaLink || "");
+  if (link === "/contact") link = "#contact";
+  link = safeUrl(link);
+  $("#promo").innerHTML = `<b>${esc(p.title)}</b>${link && p.ctaText ? `<a href="${esc(link)}">${esc(p.ctaText)}</a>` : ""}<button aria-label="ปิด" id="promoX">×</button>`;
+  $("#promo").classList.remove("hide");
+  $("#promoX").onclick = () => { $("#promo").classList.add("hide"); try { sessionStorage.setItem("promoClosed", p.id); } catch {} };
+}
+
+/* ---------- โหลดข้อมูลทั้งหมดจากหลังบ้าน ---------- */
+async function load() {
+  const [bi, cats, prods, reviews, faq, promo] = await Promise.allSettled([
+    query("business_information", q => q.eq("published", true).limit(1)),
+    query("categories", q => q.eq("published", true).order("sort_order")),
+    query("products", q => q.select("*, categories(slug)").eq("published", true).order("created_at", {ascending:false}).limit(500)),
+    query("reviews", q => q.eq("display_status", "published").order("review_date", {ascending:false}).limit(6)),
+    query("faqs", q => q.eq("display_status", "published").order("sort_order")),
+    query("promotions", q => q.eq("status", "active"))
+  ]);
+  const ok = r => r.status === "fulfilled" ? r.value : null;
+  BI = mapBusiness((ok(bi) || [])[0] || {});
+  BI.customJewelryImage = BI.customJewelryImage || LOCAL_ASSETS.sections.customJewelryImage;
+  BI.craftsmanshipImage = BI.craftsmanshipImage || LOCAL_ASSETS.sections.craftsmanshipImage;
+  BI.afterSalesImage = BI.afterSalesImage || LOCAL_ASSETS.sections.afterSalesImage;
+  BI.aboutImage = BI.aboutImage || LOCAL_ASSETS.sections.aboutImage;
+  BI.lineQrImage = BI.lineQrImage || LOCAL_ASSETS.sections.lineQrImage;
+  CATS = (ok(cats) || []).map(mapCategory);
+  PRODUCTS = (ok(prods) || []).map(mapProduct).sort((a,b) => (b.featured?1:0) - (a.featured?1:0));
+  renderBusiness(); renderCategories(); renderProducts();
+  renderReviews((ok(reviews) || []).map(mapReview)); renderFAQ((ok(faq) || []).map(mapFAQ)); renderPromo((ok(promo) || []).map(mapPromotion));
+  observeReveal();
+  if ([bi,cats,prods].some(r => r.status === "rejected")) {
+    $("#status").textContent = "โหลดข้อมูลจาก Supabase ไม่ครบ กรุณาตรวจการตั้งค่าแล้วรีเฟรชอีกครั้ง";
+    $("#status").classList.remove("hide");
+  }
+}
+
+/* ---------- การโต้ตอบ ---------- */
+document.addEventListener("click", e => {
+  const cat = e.target.closest("[data-cat]");
+  if (cat) { currentCat = cat.dataset.cat; renderProducts(); $("#mobile").classList.remove("open"); if (!cat.getAttribute("href")) $("#shop").scrollIntoView(); return; }
+  const chip = e.target.closest("[data-chip]");
+  if (chip) { currentCat = chip.dataset.chip; renderProducts(); return; }
+  const prod = e.target.closest("[data-pid]");
+  if (prod) { openProduct(prod.dataset.pid); return; }
+  const th = e.target.closest("[data-thumb]");
+  if (th) { $("#mmain").style.backgroundImage = `url('${th.dataset.thumb}')`; $$(".thumbs img").forEach(i => i.classList.toggle("on", i === th)); return; }
+  if (e.target.matches("[data-close]") || e.target.id === "modal") closeModal();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeModal();
+  if (e.key === "Enter" && e.target.dataset.pid) openProduct(e.target.dataset.pid);
+});
+
+const hdr = $("#hdr");
+const onScroll = () => hdr.classList.toggle("scrolled", scrollY > 40);
+addEventListener("scroll", onScroll); onScroll();
+$("#burger").onclick = () => { $("#mobile").classList.toggle("open"); hdr.classList.add("scrolled"); };
+$$("#mobile > a").forEach(a => a.addEventListener("click", () => $("#mobile").classList.remove("open")));
+$("#yr").textContent = new Date().getFullYear();
+
+let io;
+function observeReveal() {
+  io = io || new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); } }), {threshold:.1});
+  $$(".reveal:not(.in)").forEach(el => io.observe(el));
+}
+observeReveal();
+load();
+</script>
+</body>
+</html>
